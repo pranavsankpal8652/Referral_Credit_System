@@ -1,4 +1,4 @@
-# 🧩 PROJECT NAME: Referral-Credit  System
+# 🧩 PROJECT NAME: Referral-Credit System
 
 🚀 Referral System (MERN + Socket.io)
 
@@ -74,7 +74,7 @@ CLIENT_URL=https://referral-credit-system-ten.vercel.app/
 
 # ----------------------------
 
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+NEXT_PUBLIC_API_BASE_URL=https://referral-credit-system-p29c.onrender.com
 
 # → Base URL of backend API accessible by the client
 
@@ -156,20 +156,19 @@ Hosting: Github
 
 # ----------------------------
 
-1️⃣ User registers → optional referral code stored  
+1️⃣ User registers → optional referral code stored
 
-2️⃣ On successful registration → referral relationship saved in DB  
+2️⃣ On successful registration → referral relationship saved in DB
 
 3️⃣ When referred user makes a purchase:
 
-• Backend emits 'user_updated' via Socket.io  
+• Backend emits 'user_updated' via Socket.io
 
- • Referrer’s dashboard updates live without reload  
- 
-4️⃣ Global socket (initialized once) ensures real-time updates across pages  
+• Referrer’s dashboard updates live without reload
+
+4️⃣ Global socket (initialized once) ensures real-time updates across pages
 
 5️⃣ Frontend securely fetches data via protected routes using JWT in headers
-
 
 # ----------------------------
 
@@ -177,13 +176,13 @@ Hosting: Github
 
 # ----------------------------
 
-• Global Socket connection lives in `socket.ts` and reused across components  
+• Global Socket connection lives in `socket.ts` and reused across components
 
-• Dashboard listens to socket events for live reward updates  
+• Dashboard listens to socket events for live reward updates
 
-• Cleanup handled via `disconnect` only on app unmount (not every route change)  
+• Cleanup handled via `disconnect` only on app unmount (not every route change)
 
-• Backend uses CORS with `credentials: true` for cookie/JWT handling  
+• Backend uses CORS with `credentials: true` for cookie/JWT handling
 
 • Referral logic handled in backend before sending API response
 

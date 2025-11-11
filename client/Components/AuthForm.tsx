@@ -8,6 +8,7 @@ import Logo from "./Logo";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/zustand/store";
+import { tr } from "framer-motion/client";
 
 type Props = {
   mode: "login" | "register";
@@ -92,12 +93,16 @@ export default function AuthForm({ mode, referralFromUrl }: Props) {
           });
       } else {
         axios
-          .post(`${base_url}/auth/register`, {
-            name: form.name,
-            email: form.email,
-            password: form.password,
-            referredBy: form.referredBy ? form.referredBy : null,
-          })
+          .post(
+            `${base_url}/auth/register`,
+            {
+              name: form.name,
+              email: form.email,
+              password: form.password,
+              referredBy: form.referredBy ? form.referredBy : null,
+            },
+            { withCredentials: true }
+          )
           .then((response) => {
             if (response.status !== 200) {
               setError("Registration failed.");

@@ -106,12 +106,13 @@ export default function AuthForm({ mode, referralFromUrl }: Props) {
           .then((response) => {
             if (response.status !== 200) {
               setError("Registration failed.");
+              setLoading(false);
               return;
             } else {
               setError(null);
               toast.success("Registration successful,login to continue");
-              router.push("/login");
               setLoading(false);
+              router.push("/login");
             }
             // console.log("Registration successful:", response.data);
           })

@@ -3,12 +3,18 @@ import { UserModel } from "../model/UserModel";
 import bcrypt from "bcrypt";
 import { generate } from "referral-codes";
 import JsonWebToken from "jsonwebtoken";
+import { CookieOptions } from "express";
 import { io } from "../../index"; // import the Socket.IO server instance
-const cookieDomain =
-  process.env.NODE_ENV === "production"
-    ? ".referral-credit-system-ten.vercel.app"
-    : "localhost";
+const cookieOptions: CookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "none" as const,
+  path: "/",
+};
 
+if (process.env.NODE_ENV === "production") {
+  cookieOptions.domain = ".referral-credit-system-ten.vercel.app";
+}
 export const registerUser = (req: Request, res: Response) => {
   const data = req.body;
   // console.log(data);
@@ -92,21 +98,7 @@ export const loginUser = (req: Request, res: Response) => {
             return res.status(500).send("Error generating token: " + err);
           }
 
-          res.cookie("authtoken", token, {
-            domain: cookieDomain,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
-            path: "/",
-            httpOnly: true,
-          });
-
-          res.cookie("authToken", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            domain: ".referral-credit-system-ten.vercel.app",
-            path: "/",
-          });
+          res.cookie("authToken", token, cookieOptions);
 
           res.status(200).json({
             user: {
@@ -134,13 +126,7 @@ export const logoutUser = (req: Request, res: Response) => {
     return res.status(400).send("No user is logged in");
   }
   // console.log('hasCookie')
-  res.cookie("authToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    path: "/",
-    domain: cookieDomain,
-  });
+  res.clearCookie("authToken", cookieOptions);
 
   res.status(200).send("User logged out successfully");
 };

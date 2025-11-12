@@ -83,7 +83,7 @@ export default function AuthForm({ mode, referralFromUrl }: Props) {
               toast.success("Login successful");
               setUser(response.data.user);
               setLoading(false);
-              window.location.href = "/dashboard";
+              router.push("/dashboard");
             }
             // console.log("Login successful:", response.data);
           })

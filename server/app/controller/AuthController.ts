@@ -4,6 +4,11 @@ import bcrypt from "bcrypt";
 import { generate } from "referral-codes";
 import JsonWebToken from "jsonwebtoken";
 import { io } from "../../index"; // import the Socket.IO server instance
+const cookieDomain =
+  process.env.NODE_ENV === "production"
+    ? ".referral-credit-system-ten.vercel.app"
+    : "localhost";
+
 export const registerUser = (req: Request, res: Response) => {
   const data = req.body;
   // console.log(data);
@@ -86,10 +91,20 @@ export const loginUser = (req: Request, res: Response) => {
           if (err) {
             return res.status(500).send("Error generating token: " + err);
           }
+
+          res.cookie("authtoken", token, {
+            domain: cookieDomain,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+            path: "/",
+            httpOnly: true,
+          });
+
           res.cookie("authToken", token, {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".referral-credit-system-ten.vercel.app",
             path: "/",
           });
 
@@ -119,11 +134,12 @@ export const logoutUser = (req: Request, res: Response) => {
     return res.status(400).send("No user is logged in");
   }
   // console.log('hasCookie')
-  res.clearCookie("authToken", {
+  res.cookie("authToken", {
     httpOnly: true,
     secure: true,
     sameSite: "none",
     path: "/",
+    domain: cookieDomain,
   });
 
   res.status(200).send("User logged out successfully");

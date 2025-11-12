@@ -6,6 +6,7 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function proxy(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;
+  console.log(token);
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));

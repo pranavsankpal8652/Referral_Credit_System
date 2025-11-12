@@ -20,7 +20,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000", //  local frontend origin
-      "https://referral-credit-system-ten.vercel.app/", //  deployed frontend origin
+      "https://referral-credit-system-ten.vercel.app", //  deployed frontend origin
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

@@ -89,7 +89,7 @@ export const loginUser = (req: Request, res: Response) => {
           res.cookie("authToken", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "none",
+            sameSite: "strict",
             path: "/",
           });
 
@@ -122,7 +122,7 @@ export const logoutUser = (req: Request, res: Response) => {
   res.clearCookie("authToken", {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "strict",
     path: "/",
   });
 
